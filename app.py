@@ -52,7 +52,9 @@ def sentiment():
     try:
         data = request.form
         feedback = data.get("feedback")
+        print(feedback)
         sent = sentiment_analyzer(feedback)
+        print(sent)
         return jsonify({"sentiment":sent})
     except Exception as e:
         return jsonify({"error": str(e)}),401

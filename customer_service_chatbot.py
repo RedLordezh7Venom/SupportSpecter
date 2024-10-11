@@ -1,6 +1,4 @@
 from googletrans import Translator
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
 import os
 from dotenv import load_dotenv
 import pandas as pd
@@ -25,10 +23,10 @@ def save():
   df.to_csv('conversation_history.csv', index=False)
 
 def sentiment_analyzer(text):
-  prompt="analyse the text of this complaint or feedback given,just give the tone and other observations :" + text
-  message=HumanMessage(content=f"{prompt}")
+  prompt = f"Analyze the text of this complaint or feedback given: '{text}'. Just give the tone and other observations:"
+  message=HumanMessage(content=prompt)
   response=llm.invoke([message])
-  return response
+  return response.content
 
 translator=Translator()
 def chatbot(input_text,output_language):
@@ -40,7 +38,6 @@ def chatbot(input_text,output_language):
     translated_response = translator.translate(translated_response, dest=output_language).text
     print(f"Chatbot: {translated_response}")
     add_to_convo(input_text,response.content)
-    translated_response=response
     save()
     return translated_response
 
@@ -71,3 +68,4 @@ if __name__ == "__main__":
     summary = summarize('conversation_history.csv')
     print(summary)
     chatbot("मुझे प्राप्त ऑर्डर पूरी तरह से खराब गुणवत्ता का है, मैं इस सेवा से बहुत निराश हूं और अपना ऑर्डर वापस करना चाहता हूं, इसके लिए चरण बताएं","spanish")
+    print(sentiment_analyzer("I absolutely love the new headphones! The sound quality is amazing and they're so comfortable to wear."))

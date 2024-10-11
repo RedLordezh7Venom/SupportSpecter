@@ -1,6 +1,3 @@
-from langchain.chains import LLMChain
-from langchain.prompts import PromptTemplate
-import google.generativeai as genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv
 import os
@@ -9,7 +6,6 @@ load_dotenv()
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 llm=ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=GOOGLE_API_KEY)
-from langchain_core.messages import HumanMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 faq_prompt = """
@@ -40,6 +36,7 @@ def generate_faq_response(question, knowledge_base = knowledge_base):
     prompt = faq_prompt.format(question=question, knowledge_base=knowledge_base)
     response = llm.invoke(prompt)
     print(response.content)
+    return response.content
 
 if __name__ == "__main__":
     question = "How do I cancel my order"
