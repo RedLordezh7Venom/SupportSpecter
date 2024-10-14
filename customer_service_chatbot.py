@@ -41,6 +41,27 @@ def chatbot(input_text,output_language):
     save()
     return translated_response
 
+def feedback_analysis(input_text, organization_type):
+    sentiment = sentiment_analyzer(input_text)
+
+
+    message_content = (
+        f"You are a customer service chatbot for a multimillion-dollar {organization_type}. "
+        f"The following text is from a customer: '{input_text}'. "
+        f"Analyze it to understand the emotions (detected sentiment: {sentiment}). "
+        f"Based on this, provide personalized advice points for the customer service agent. "
+        f"Focus on what actions can be taken to address the feedback and areas to improve upon."
+        f"if its a complaint,categorize the {input_text} into the type of problem it is and tell the customer service agent to contanct the appropriate people"
+    )
+
+
+    message = HumanMessage(content=message_content)
+    response = llm.invoke([message])
+
+    print("Personalized advice for customer service agent:")
+    return response.content
+
+
 #Summarize
 
 def summarize(adress):
@@ -67,5 +88,5 @@ def summarize(adress):
 if __name__ == "__main__":
     summary = summarize('conversation_history.csv')
     print(summary)
-    chatbot("मुझे प्राप्त ऑर्डर पूरी तरह से खराब गुणवत्ता का है, मैं इस सेवा से बहुत निराश हूं और अपना ऑर्डर वापस करना चाहता हूं, इसके लिए चरण बताएं","spanish")
+    resp1 = chatbot("मुझे प्राप्त ऑर्डर पूरी तरह से खराब गुणवत्ता का है, मैं इस सेवा से बहुत निराश हूं और अपना ऑर्डर वापस करना चाहता हूं, इसके लिए चरण बताएं","spanish")
     print(sentiment_analyzer("I absolutely love the new headphones! The sound quality is amazing and they're so comfortable to wear."))

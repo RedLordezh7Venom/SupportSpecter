@@ -43,5 +43,7 @@ if __name__ == "__main__":
     response = generate_faq_response(question, knowledge_base)
     question = "What is your return policy?"
     response = generate_faq_response(question, knowledge_base)
+    question = "How can I cancel my order"
+    response = generate_faq_response(question, knowledge_base)
 
 
